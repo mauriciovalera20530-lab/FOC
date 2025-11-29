@@ -98,3 +98,18 @@ model Product {
   @@unique([name, areaId])
   @@map("products")
 }
+
+model Test {
+  id        Int       @id @default(autoincrement())
+  name      String    // Usado en create, update y getByName
+  status    Boolean   @default(true) // Usado en getAll y soft deletes
+  
+  // Timestamps
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  
+  // Campo específico para tu lógica de Soft Delete
+  deletedAt DateTime? @map("deleted_at") 
+
+  @@map("tests")
+}

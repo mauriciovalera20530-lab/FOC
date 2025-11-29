@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios'
 
-const API_BASE = (import.meta.env?.VITE_API_URL as string) ?? 'http://localhost:3785/api/v1'
+const API_BASE = (import.meta.env?.VITE_API_URL as string) ?? 'http://localhost:3800/api'
 
 export const apiClient: AxiosInstance = axios.create({
   baseURL: API_BASE,
