@@ -1,0 +1,100 @@
+// backend/prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// --- NIVEL 1: Tablas Independientes ---
+
+model Role {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  status    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  users     User[]
+
+  @@map("roles")
+}
+
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  status    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  products  Product[]
+
+  @@map("categories")
+}
+
+model Warehouse {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  status    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  areas     Area[]
+
+  @@map("warehouses")
+}
+
+// --- NIVEL 2: Tablas Dependientes ---
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String?
+  email     String   @unique
+  password  String   @default("123456") 
+  roleId    Int      @map("role_id") // El frontend espera role_id, Prisma usa roleId, @map lo conecta
+  status    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  role      Role     @relation(fields: [roleId], references: [id])
+
+  @@map("users")
+}
+
+model Area {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  warehouseId Int       @map("warehouse_id")
+  status      Boolean   @default(true)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  warehouse   Warehouse @relation(fields: [warehouseId], references: [id])
+  products    Product[]
+
+  @@map("areas")
+}
+
+// --- NIVEL 3: Tablas Altamente Dependientes ---
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  price       Float    @default(0)
+  quantity    Int      @default(0)
+  categoryId  Int      @map("category_id")
+  areaId      Int      @map("area_id")
+  status      Boolean  @default(true)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  category    Category @relation(fields: [categoryId], references: [id])
+  area        Area     @relation(fields: [areaId], references: [id])
+
+  // Restricción compuesta: Nombre único por área
+  @@unique([name, areaId])
+  @@map("products")
+}
