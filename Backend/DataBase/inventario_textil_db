@@ -1,0 +1,744 @@
+--
+-- PostgreSQL database dump
+--
+
+\restrict R3YTnhWzuKnR0prbffy5APaxQbmLxabCPshfhp9ZU3fdUjt3XeekWqXPnIm4jvm
+
+-- Dumped from database version 18.0
+-- Dumped by pg_dump version 18.0
+
+-- Started on 2025-11-29 17:54:15
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 5 (class 2615 OID 28516)
+-- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+-- *not* creating schema, since initdb creates it
+
+
+ALTER SCHEMA public OWNER TO postgres;
+
+--
+-- TOC entry 5008 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON SCHEMA public IS '';
+
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 219 (class 1259 OID 28517)
+-- Name: _prisma_migrations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public._prisma_migrations (
+    id character varying(36) NOT NULL,
+    checksum character varying(64) NOT NULL,
+    finished_at timestamp with time zone,
+    migration_name character varying(255) NOT NULL,
+    logs text,
+    rolled_back_at timestamp with time zone,
+    started_at timestamp with time zone DEFAULT now() NOT NULL,
+    applied_steps_count integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public._prisma_migrations OWNER TO postgres;
+
+--
+-- TOC entry 229 (class 1259 OID 28599)
+-- Name: areas; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.areas (
+    id integer NOT NULL,
+    name text NOT NULL,
+    warehouse_id integer NOT NULL,
+    status boolean DEFAULT true NOT NULL,
+    created_at timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(3) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.areas OWNER TO postgres;
+
+--
+-- TOC entry 228 (class 1259 OID 28598)
+-- Name: areas_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.areas_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.areas_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 5010 (class 0 OID 0)
+-- Dependencies: 228
+-- Name: areas_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.areas_id_seq OWNED BY public.areas.id;
+
+
+--
+-- TOC entry 223 (class 1259 OID 28548)
+-- Name: categories; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.categories (
+    id integer NOT NULL,
+    name text NOT NULL,
+    status boolean DEFAULT true NOT NULL,
+    created_at timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(3) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.categories OWNER TO postgres;
+
+--
+-- TOC entry 222 (class 1259 OID 28547)
+-- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.categories_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.categories_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 5011 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.categories_id_seq OWNED BY public.categories.id;
+
+
+--
+-- TOC entry 231 (class 1259 OID 28616)
+-- Name: products; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.products (
+    id integer NOT NULL,
+    name text NOT NULL,
+    price double precision DEFAULT 0 NOT NULL,
+    quantity integer DEFAULT 0 NOT NULL,
+    category_id integer NOT NULL,
+    area_id integer NOT NULL,
+    status boolean DEFAULT true NOT NULL,
+    created_at timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(3) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.products OWNER TO postgres;
+
+--
+-- TOC entry 230 (class 1259 OID 28615)
+-- Name: products_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.products_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.products_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 5012 (class 0 OID 0)
+-- Dependencies: 230
+-- Name: products_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.products_id_seq OWNED BY public.products.id;
+
+
+--
+-- TOC entry 221 (class 1259 OID 28532)
+-- Name: roles; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.roles (
+    id integer NOT NULL,
+    name text NOT NULL,
+    status boolean DEFAULT true NOT NULL,
+    created_at timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(3) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.roles OWNER TO postgres;
+
+--
+-- TOC entry 220 (class 1259 OID 28531)
+-- Name: roles_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.roles_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.roles_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 5013 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.roles_id_seq OWNED BY public.roles.id;
+
+
+--
+-- TOC entry 233 (class 1259 OID 28664)
+-- Name: tests; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tests (
+    id integer NOT NULL,
+    name text NOT NULL,
+    status boolean DEFAULT true NOT NULL,
+    created_at timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(3) without time zone NOT NULL,
+    deleted_at timestamp(3) without time zone
+);
+
+
+ALTER TABLE public.tests OWNER TO postgres;
+
+--
+-- TOC entry 232 (class 1259 OID 28663)
+-- Name: tests_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.tests_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.tests_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 5014 (class 0 OID 0)
+-- Dependencies: 232
+-- Name: tests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.tests_id_seq OWNED BY public.tests.id;
+
+
+--
+-- TOC entry 227 (class 1259 OID 28580)
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    name text,
+    email text NOT NULL,
+    password text DEFAULT '123456'::text NOT NULL,
+    role_id integer NOT NULL,
+    status boolean DEFAULT true NOT NULL,
+    created_at timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(3) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- TOC entry 226 (class 1259 OID 28579)
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.users_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 5015 (class 0 OID 0)
+-- Dependencies: 226
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- TOC entry 225 (class 1259 OID 28564)
+-- Name: warehouses; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.warehouses (
+    id integer NOT NULL,
+    name text NOT NULL,
+    status boolean DEFAULT true NOT NULL,
+    created_at timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(3) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.warehouses OWNER TO postgres;
+
+--
+-- TOC entry 224 (class 1259 OID 28563)
+-- Name: warehouses_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.warehouses_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.warehouses_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 5016 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: warehouses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.warehouses_id_seq OWNED BY public.warehouses.id;
+
+
+--
+-- TOC entry 4804 (class 2604 OID 28602)
+-- Name: areas id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.areas ALTER COLUMN id SET DEFAULT nextval('public.areas_id_seq'::regclass);
+
+
+--
+-- TOC entry 4794 (class 2604 OID 28551)
+-- Name: categories id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.categories ALTER COLUMN id SET DEFAULT nextval('public.categories_id_seq'::regclass);
+
+
+--
+-- TOC entry 4807 (class 2604 OID 28619)
+-- Name: products id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.products ALTER COLUMN id SET DEFAULT nextval('public.products_id_seq'::regclass);
+
+
+--
+-- TOC entry 4791 (class 2604 OID 28535)
+-- Name: roles id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.roles ALTER COLUMN id SET DEFAULT nextval('public.roles_id_seq'::regclass);
+
+
+--
+-- TOC entry 4812 (class 2604 OID 28667)
+-- Name: tests id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tests ALTER COLUMN id SET DEFAULT nextval('public.tests_id_seq'::regclass);
+
+
+--
+-- TOC entry 4800 (class 2604 OID 28583)
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- TOC entry 4797 (class 2604 OID 28567)
+-- Name: warehouses id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.warehouses ALTER COLUMN id SET DEFAULT nextval('public.warehouses_id_seq'::regclass);
+
+
+--
+-- TOC entry 4988 (class 0 OID 28517)
+-- Dependencies: 219
+-- Data for Name: _prisma_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public._prisma_migrations (id, checksum, finished_at, migration_name, logs, rolled_back_at, started_at, applied_steps_count) FROM stdin;
+c07a394e-3064-4ba1-a3a6-4b7149c38d3a	82b52934b9a268578d2a4c99c42dde7ca0af865970ef7f7581422a8c657d437c	2025-11-29 09:28:35.58477-04	20251125143148_init	\N	\N	2025-11-29 09:28:35.456082-04	1
+49cb5d77-890b-45b7-84a1-e122beaa1ad0	007f338aa94ae5afecde8d412afc8a0978ad9cc9b66240640fa5ef9cd0a25857	2025-11-29 09:28:35.594429-04	20251129014655_test_added	\N	\N	2025-11-29 09:28:35.585906-04	1
+\.
+
+
+--
+-- TOC entry 4998 (class 0 OID 28599)
+-- Dependencies: 229
+-- Data for Name: areas; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.areas (id, name, warehouse_id, status, created_at, updated_at) FROM stdin;
+1	Zona A	1	t	2025-11-29 10:06:03.73	2025-11-29 10:06:03.73
+\.
+
+
+--
+-- TOC entry 4992 (class 0 OID 28548)
+-- Dependencies: 223
+-- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.categories (id, name, status, created_at, updated_at) FROM stdin;
+4	Textiles	t	2025-11-29 10:04:18.538	2025-11-29 10:04:18.538
+5	Zapatos Deportivos	f	2025-11-29 14:18:02.526	2025-11-29 14:20:00.447
+\.
+
+
+--
+-- TOC entry 5000 (class 0 OID 28616)
+-- Dependencies: 231
+-- Data for Name: products; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.products (id, name, price, quantity, category_id, area_id, status, created_at, updated_at) FROM stdin;
+4	Tela Jean	15.5	500	4	1	t	2025-11-29 10:09:07.607	2025-11-29 10:09:07.607
+\.
+
+
+--
+-- TOC entry 4990 (class 0 OID 28532)
+-- Dependencies: 221
+-- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.roles (id, name, status, created_at, updated_at) FROM stdin;
+1	Administrador	t	2025-11-29 10:04:18.538	2025-11-29 10:04:18.538
+3	Vendedor	t	2025-11-29 14:22:04.952	2025-11-29 14:22:04.952
+\.
+
+
+--
+-- TOC entry 5002 (class 0 OID 28664)
+-- Dependencies: 233
+-- Data for Name: tests; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.tests (id, name, status, created_at, updated_at, deleted_at) FROM stdin;
+1	Prueba de Sistema	t	2025-11-29 10:04:18.538	2025-11-29 10:04:18.538	\N
+\.
+
+
+--
+-- TOC entry 4996 (class 0 OID 28580)
+-- Dependencies: 227
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.users (id, name, email, password, role_id, status, created_at, updated_at) FROM stdin;
+1	Juan Pérez	juan@test.com	123456	1	t	2025-11-29 10:06:03.73	2025-11-29 10:06:03.73
+\.
+
+
+--
+-- TOC entry 4994 (class 0 OID 28564)
+-- Dependencies: 225
+-- Data for Name: warehouses; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.warehouses (id, name, status, created_at, updated_at) FROM stdin;
+1	Central	t	2025-11-29 10:04:18.538	2025-11-29 10:04:18.538
+\.
+
+
+--
+-- TOC entry 5017 (class 0 OID 0)
+-- Dependencies: 228
+-- Name: areas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.areas_id_seq', 1, true);
+
+
+--
+-- TOC entry 5018 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.categories_id_seq', 5, true);
+
+
+--
+-- TOC entry 5019 (class 0 OID 0)
+-- Dependencies: 230
+-- Name: products_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.products_id_seq', 4, true);
+
+
+--
+-- TOC entry 5020 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: roles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.roles_id_seq', 3, true);
+
+
+--
+-- TOC entry 5021 (class 0 OID 0)
+-- Dependencies: 232
+-- Name: tests_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.tests_id_seq', 2, true);
+
+
+--
+-- TOC entry 5022 (class 0 OID 0)
+-- Dependencies: 226
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 1, true);
+
+
+--
+-- TOC entry 5023 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: warehouses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.warehouses_id_seq', 1, true);
+
+
+--
+-- TOC entry 4816 (class 2606 OID 28530)
+-- Name: _prisma_migrations _prisma_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public._prisma_migrations
+    ADD CONSTRAINT _prisma_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4831 (class 2606 OID 28614)
+-- Name: areas areas_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.areas
+    ADD CONSTRAINT areas_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4822 (class 2606 OID 28562)
+-- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.categories
+    ADD CONSTRAINT categories_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4834 (class 2606 OID 28636)
+-- Name: products products_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.products
+    ADD CONSTRAINT products_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4819 (class 2606 OID 28546)
+-- Name: roles roles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.roles
+    ADD CONSTRAINT roles_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4836 (class 2606 OID 28678)
+-- Name: tests tests_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tests
+    ADD CONSTRAINT tests_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4828 (class 2606 OID 28597)
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4825 (class 2606 OID 28578)
+-- Name: warehouses warehouses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.warehouses
+    ADD CONSTRAINT warehouses_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4829 (class 1259 OID 28641)
+-- Name: areas_name_key; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX areas_name_key ON public.areas USING btree (name);
+
+
+--
+-- TOC entry 4820 (class 1259 OID 28638)
+-- Name: categories_name_key; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX categories_name_key ON public.categories USING btree (name);
+
+
+--
+-- TOC entry 4832 (class 1259 OID 28642)
+-- Name: products_name_area_id_key; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX products_name_area_id_key ON public.products USING btree (name, area_id);
+
+
+--
+-- TOC entry 4817 (class 1259 OID 28637)
+-- Name: roles_name_key; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX roles_name_key ON public.roles USING btree (name);
+
+
+--
+-- TOC entry 4826 (class 1259 OID 28640)
+-- Name: users_email_key; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX users_email_key ON public.users USING btree (email);
+
+
+--
+-- TOC entry 4823 (class 1259 OID 28639)
+-- Name: warehouses_name_key; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX warehouses_name_key ON public.warehouses USING btree (name);
+
+
+--
+-- TOC entry 4838 (class 2606 OID 28648)
+-- Name: areas areas_warehouse_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.areas
+    ADD CONSTRAINT areas_warehouse_id_fkey FOREIGN KEY (warehouse_id) REFERENCES public.warehouses(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 4839 (class 2606 OID 28658)
+-- Name: products products_area_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.products
+    ADD CONSTRAINT products_area_id_fkey FOREIGN KEY (area_id) REFERENCES public.areas(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 4840 (class 2606 OID 28653)
+-- Name: products products_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.products
+    ADD CONSTRAINT products_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.categories(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 4837 (class 2606 OID 28643)
+-- Name: users users_role_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_role_id_fkey FOREIGN KEY (role_id) REFERENCES public.roles(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 5009 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE USAGE ON SCHEMA public FROM PUBLIC;
+
+
+-- Completed on 2025-11-29 17:54:16
+
+--
+-- PostgreSQL database dump complete
+--
+
+\unrestrict R3YTnhWzuKnR0prbffy5APaxQbmLxabCPshfhp9ZU3fdUjt3XeekWqXPnIm4jvm
+
