@@ -32,4 +32,4 @@ Configuracion del prisma
 
 2. npx prisma generate
 Ejecucion
-npm run start:dev
+npm run dev
