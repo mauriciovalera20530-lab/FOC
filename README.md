@@ -34,7 +34,7 @@ Reemplaza:
 - nombre_db: El nombre de la base de datos que quieres usar para este proyecto,
 igualmente, dejamos una base de datos(DataBase) con datos ya cargados.
 
-DATABASE_URL="postgresql://usuario:password@localhost:5432/nombre_db"
+DATABASE_URL="postgresql://usuario:tu_contraseña@localhost:5432/nombre_db"
 
 Configuracion del prisma
 
